@@ -59,7 +59,7 @@ public interface ConnectionRepository extends JpaRepository<Connection, Long> {
         SELECT CASE WHEN c.requester.id = :userId THEN c.addressee.id ELSE c.requester.id END
         FROM Connection c
         WHERE (c.requester.id = :userId OR c.addressee.id = :userId)
-        AND c.status = com.skillconnect.server.entity.Connection.ConnectionStatus.ACCEPTED
+        AND c.status = 'ACCEPTED'
         """)
     List<Long> findAcceptedConnectionIds(@Param("userId") Long userId);
 }
