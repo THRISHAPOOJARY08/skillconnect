@@ -19,7 +19,7 @@ export default function AnswerEditorPage() {
 
   useEffect(() => {
     apiClient.get(`/questions/${id}`).then(r => setQuestion(r.data)).catch(() => navigate('/answer'))
-  }, [id])
+  }, [id, navigate])
 
   const handleSubmit = async e => {
     e.preventDefault()
