@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { HelpCircle, MessageSquare, Star, Trophy, Users, TrendingUp, Clock, Zap, BookOpen, ArrowRight, Megaphone, Send } from 'lucide-react'
+import { HelpCircle, MessageSquare, Star, Trophy, Users, TrendingUp, Clock, Zap, BookOpen, ArrowRight, Megaphone, Send, LogOut } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import apiClient from '../../api/apiClient'
 import { getAvatar } from '../../utils/avatar'
@@ -74,6 +74,9 @@ export default function DashboardHome() {
     } finally { setAnnPosting(false) }
   }
 
+  const { logout } = useAuth()
+  const handleSignOut = () => { logout(); navigate('/login') }
+
   const avatarSrc = getAvatar(user?.avatarPath, user?.username)
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
@@ -95,7 +98,7 @@ export default function DashboardHome() {
               @{user?.username} · Keep learning and growing!
             </p>
           </div>
-          <div className="ms-auto d-none d-md-flex gap-2">
+          <div className="ms-auto d-none d-md-flex gap-2 align-items-center">
             <button className="btn btn-sm"
               style={{ background: 'rgba(255,255,255,.15)', color: '#fff', borderRadius: 10, border: '1px solid rgba(255,255,255,.25)', backdropFilter: 'blur(10px)', fontWeight: 600 }}
               onClick={() => navigate('/ask')}>
@@ -105,6 +108,11 @@ export default function DashboardHome() {
               style={{ background: 'rgba(255,255,255,.15)', color: '#fff', borderRadius: 10, border: '1px solid rgba(255,255,255,.25)', backdropFilter: 'blur(10px)', fontWeight: 600 }}
               onClick={() => navigate('/connections')}>
               <Users size={14} className="me-1" /> Connect
+            </button>
+            <button className="btn btn-sm"
+              style={{ background: 'rgba(255,50,50,.35)', color: '#fff', borderRadius: 10, border: '1px solid rgba(255,100,100,.4)', backdropFilter: 'blur(10px)', fontWeight: 600 }}
+              onClick={handleSignOut}>
+              <LogOut size={14} className="me-1" /> Sign Out
             </button>
           </div>
         </div>
