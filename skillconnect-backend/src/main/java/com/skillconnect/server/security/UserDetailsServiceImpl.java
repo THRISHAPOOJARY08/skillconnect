@@ -17,7 +17,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+        User user = userRepository.findByUsernameOrEmailIgnoreCase(usernameOrEmail)
             .orElseThrow(() -> new UsernameNotFoundException("User not found: " + usernameOrEmail));
 
         return org.springframework.security.core.userdetails.User.builder()

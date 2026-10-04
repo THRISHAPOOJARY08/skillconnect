@@ -69,11 +69,14 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest req) {
+        // Resolve the real username (case-insensitive) before authenticating
+        User user = userRepo.findByUsernameOrEmailIgnoreCase(req.getUsernameOrEmail())
+            .orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
+
+        // Authenticate using the stored (exact case) username so Spring Security finds it
         authManager.authenticate(
-            new UsernamePasswordAuthenticationToken(req.getUsernameOrEmail(), req.getPassword())
+            new UsernamePasswordAuthenticationToken(user.getUsername(), req.getPassword())
         );
-        User user = userRepo.findByUsernameOrEmail(req.getUsernameOrEmail(), req.getUsernameOrEmail())
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         String token = jwtUtil.generateToken(user.getUsername());
         return new AuthResponse(token, userMapper.toResponse(user));
