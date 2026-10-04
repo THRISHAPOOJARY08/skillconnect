@@ -67,6 +67,7 @@ public class ConnectionController {
             User peer = c.getRequester().getId().equals(me.getId()) ? c.getAddressee() : c.getRequester();
             UserResponse r = userMapper.toResponse(peer);
             r.setConnectionStatus("ACCEPTED");
+            r.setConnectionId(c.getId());
             return r;
         }).toList();
         return ResponseEntity.ok(users);

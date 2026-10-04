@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Users, UserPlus, UserCheck, UserX, Search } from 'lucide-react'
+import { Users, UserPlus, UserCheck, UserMinus, Search } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import apiClient from '../../api/apiClient'
 import { getAvatar } from '../../utils/avatar'
@@ -80,9 +80,9 @@ function UserCard({ u, onAction, loading }) {
           </div>
         ) : u.connectionStatus === 'ACCEPTED' ? (
           <button className="btn btn-sm w-100"
-            style={{ background: '#f0fdf4', color: '#065f46', border: '1px solid #bbf7d0', borderRadius: 8, fontSize: '.8rem', fontWeight: 600 }}
-            disabled>
-            <UserCheck size={13} className="me-1" />Connected
+            style={{ background: '#fff0f0', color: '#b91c1c', border: '1px solid #fecaca', borderRadius: 8, fontSize: '.8rem', fontWeight: 600 }}
+            onClick={() => onAction('remove', u)} disabled={loading}>
+            <UserMinus size={13} className="me-1" />Remove
           </button>
         ) : u.connectionStatus === 'PENDING_SENT' ? (
           <button className="btn btn-sm w-100 btn-outline-secondary"
@@ -157,22 +157,45 @@ export default function ConnectionsPage() {
     setLoading(false)
   }
 
+  // Resolve connection ID: prefer u.connectionId (from /users/all), fall back to pending array
+  const resolveConnectionId = (u) => {
+    if (u.connectionId) return u.connectionId
+    if (u._connectionId) return u._connectionId
+    const found = pending.find(p => p.id === u.id)
+    return found?._connectionId ?? found?.connectionId
+  }
+
   const handleAction = async (action, u) => {
     setLoading(true)
     try {
       if (action === 'connect') {
         await apiClient.post(`/connections/request/${u.id}`)
         const markSent = list => list.map(x => x.id === u.id ? { ...x, connectionStatus: 'PENDING_SENT' } : x)
-        setResults(markSent)
-        setAllUsers(markSent)
+        setResults(prev => markSent(prev))
+        setAllUsers(prev => markSent(prev))
       } else if (action === 'accept') {
-        await apiClient.put(`/connections/${u._connectionId}/accept`)
+        const cid = resolveConnectionId(u)
+        if (!cid) { alert('Cannot find connection request. Please refresh the page.'); setLoading(false); return }
+        await apiClient.put(`/connections/${cid}/accept`)
         await loadPending()
         await loadConnections()
         setAllUsers(list => list.map(x => x.id === u.id ? { ...x, connectionStatus: 'ACCEPTED' } : x))
+        setResults(list => list.map(x => x.id === u.id ? { ...x, connectionStatus: 'ACCEPTED' } : x))
       } else if (action === 'reject') {
-        await apiClient.put(`/connections/${u._connectionId}/reject`)
+        const cid = resolveConnectionId(u)
+        if (!cid) { alert('Cannot find connection request. Please refresh the page.'); setLoading(false); return }
+        await apiClient.put(`/connections/${cid}/reject`)
         await loadPending()
+        setAllUsers(list => list.map(x => x.id === u.id ? { ...x, connectionStatus: 'NONE', connectionId: null } : x))
+        setResults(list => list.map(x => x.id === u.id ? { ...x, connectionStatus: 'NONE', connectionId: null } : x))
+      } else if (action === 'remove') {
+        const cid = resolveConnectionId(u)
+        if (!cid) { alert('Cannot find connection. Please refresh the page.'); setLoading(false); return }
+        if (!window.confirm(`Remove ${u.fullName} from your connections?`)) { setLoading(false); return }
+        await apiClient.delete(`/connections/${cid}`)
+        await loadConnections()
+        setAllUsers(list => list.map(x => x.id === u.id ? { ...x, connectionStatus: 'NONE', connectionId: null } : x))
+        setResults(list => list.map(x => x.id === u.id ? { ...x, connectionStatus: 'NONE', connectionId: null } : x))
       }
     } catch (err) {
       alert(err.response?.data?.message || 'Action failed')

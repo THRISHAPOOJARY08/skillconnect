@@ -19,5 +19,6 @@ public class UserResponse {
     private int totalAnswers;
     private int totalEvaluated;
     private String connectionStatus; // NONE, PENDING_SENT, PENDING_RECEIVED, ACCEPTED
+    private Long   connectionId;     // set when status is PENDING_RECEIVED or ACCEPTED
     private int connectionCount;
 }

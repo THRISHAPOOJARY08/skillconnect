@@ -63,19 +63,32 @@ public class UserController {
                 .filter(u -> !u.getId().equals(current.getId()))
                 .toList();
         // Annotate each with their connection status relative to the current user
-        List<Long> acceptedIds = connectionRepo.findAcceptedConnectionIds(current.getId());
-        List<Long> sentIds = connectionRepo
-                .findByRequesterIdAndStatus(current.getId(), ConnectionStatus.PENDING)
-                .stream().map(c -> c.getAddressee().getId()).toList();
-        List<Long> receivedIds = connectionRepo
-                .findByAddresseeIdAndStatus(current.getId(), ConnectionStatus.PENDING)
-                .stream().map(c -> c.getRequester().getId()).toList();
+        var acceptedConns = connectionRepo.findAcceptedByUser(current.getId());
+        var receivedConns = connectionRepo
+                .findByAddresseeIdAndStatus(current.getId(), ConnectionStatus.PENDING);
+        var sentConns = connectionRepo
+                .findByRequesterIdAndStatus(current.getId(), ConnectionStatus.PENDING);
+        List<Long> acceptedIds  = acceptedConns.stream()
+                .map(c -> c.getRequester().getId().equals(current.getId()) ? c.getAddressee().getId() : c.getRequester().getId()).toList();
+        List<Long> sentIds      = sentConns.stream().map(c -> c.getAddressee().getId()).toList();
+        List<Long> receivedIds  = receivedConns.stream().map(c -> c.getRequester().getId()).toList();
         return ResponseEntity.ok(users.stream().map(u -> {
             UserResponse r = userMapper.toResponse(u);
-            if (acceptedIds.contains(u.getId()))      r.setConnectionStatus("ACCEPTED");
-            else if (sentIds.contains(u.getId()))     r.setConnectionStatus("PENDING_SENT");
-            else if (receivedIds.contains(u.getId())) r.setConnectionStatus("PENDING_RECEIVED");
-            else                                       r.setConnectionStatus("NONE");
+            if (acceptedIds.contains(u.getId())) {
+                r.setConnectionStatus("ACCEPTED");
+                acceptedConns.stream()
+                        .filter(c -> c.getRequester().getId().equals(u.getId()) || c.getAddressee().getId().equals(u.getId()))
+                        .findFirst().ifPresent(c -> r.setConnectionId(c.getId()));
+            } else if (sentIds.contains(u.getId())) {
+                r.setConnectionStatus("PENDING_SENT");
+            } else if (receivedIds.contains(u.getId())) {
+                r.setConnectionStatus("PENDING_RECEIVED");
+                receivedConns.stream()
+                        .filter(c -> c.getRequester().getId().equals(u.getId()))
+                        .findFirst().ifPresent(c -> r.setConnectionId(c.getId()));
+            } else {
+                r.setConnectionStatus("NONE");
+            }
             return r;
         }).toList());
     }
@@ -87,19 +100,32 @@ public class UserController {
         User current = userService.getCurrentUser(principal.getUsername());
         List<User> users = userRepo.searchUsers(q, current.getId());
         // Annotate with connection status too
-        List<Long> acceptedIds = connectionRepo.findAcceptedConnectionIds(current.getId());
-        List<Long> sentIds = connectionRepo
-                .findByRequesterIdAndStatus(current.getId(), ConnectionStatus.PENDING)
-                .stream().map(c -> c.getAddressee().getId()).toList();
-        List<Long> receivedIds = connectionRepo
-                .findByAddresseeIdAndStatus(current.getId(), ConnectionStatus.PENDING)
-                .stream().map(c -> c.getRequester().getId()).toList();
+        var acceptedConns = connectionRepo.findAcceptedByUser(current.getId());
+        var receivedConns = connectionRepo
+                .findByAddresseeIdAndStatus(current.getId(), ConnectionStatus.PENDING);
+        var sentConns = connectionRepo
+                .findByRequesterIdAndStatus(current.getId(), ConnectionStatus.PENDING);
+        List<Long> acceptedIds  = acceptedConns.stream()
+                .map(c -> c.getRequester().getId().equals(current.getId()) ? c.getAddressee().getId() : c.getRequester().getId()).toList();
+        List<Long> sentIds      = sentConns.stream().map(c -> c.getAddressee().getId()).toList();
+        List<Long> receivedIds  = receivedConns.stream().map(c -> c.getRequester().getId()).toList();
         return ResponseEntity.ok(users.stream().map(u -> {
             UserResponse r = userMapper.toResponse(u);
-            if (acceptedIds.contains(u.getId()))      r.setConnectionStatus("ACCEPTED");
-            else if (sentIds.contains(u.getId()))     r.setConnectionStatus("PENDING_SENT");
-            else if (receivedIds.contains(u.getId())) r.setConnectionStatus("PENDING_RECEIVED");
-            else                                       r.setConnectionStatus("NONE");
+            if (acceptedIds.contains(u.getId())) {
+                r.setConnectionStatus("ACCEPTED");
+                acceptedConns.stream()
+                        .filter(c -> c.getRequester().getId().equals(u.getId()) || c.getAddressee().getId().equals(u.getId()))
+                        .findFirst().ifPresent(c -> r.setConnectionId(c.getId()));
+            } else if (sentIds.contains(u.getId())) {
+                r.setConnectionStatus("PENDING_SENT");
+            } else if (receivedIds.contains(u.getId())) {
+                r.setConnectionStatus("PENDING_RECEIVED");
+                receivedConns.stream()
+                        .filter(c -> c.getRequester().getId().equals(u.getId()))
+                        .findFirst().ifPresent(c -> r.setConnectionId(c.getId()));
+            } else {
+                r.setConnectionStatus("NONE");
+            }
             return r;
         }).toList());
     }
