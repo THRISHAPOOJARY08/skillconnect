@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -72,22 +73,27 @@ public class ConnectionService {
         connectionRepo.delete(conn);
     }
 
+    @Transactional(readOnly = true)
     public List<Connection> getAccepted(Long userId) {
         return connectionRepo.findAcceptedByUser(userId);
     }
 
+    @Transactional(readOnly = true)
     public List<Connection> getPending(Long userId) {
         return connectionRepo.findByAddresseeIdAndStatus(userId, ConnectionStatus.PENDING);
     }
 
+    @Transactional(readOnly = true)
     public List<Connection> getSentPending(Long userId) {
         return connectionRepo.findByRequesterIdAndStatus(userId, ConnectionStatus.PENDING);
     }
 
+    @Transactional(readOnly = true)
     public List<Long> getAcceptedIds(Long userId) {
         return connectionRepo.findAcceptedConnectionIds(userId);
     }
 
+    @Transactional(readOnly = true)
     public boolean areConnected(Long a, Long b) {
         return connectionRepo.findBetween(a, b)
             .map(c -> c.getStatus() == ConnectionStatus.ACCEPTED)

@@ -23,6 +23,7 @@ public class DashboardService {
     private final UserRepository userRepo;
     private final UserMapper userMapper;
 
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public Map<String,Object> getSummary(String username) {
         User user = userRepo.findByUsername(username).orElseThrow();
         Long uid = user.getId();
