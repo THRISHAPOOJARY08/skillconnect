@@ -26,15 +26,15 @@ export default function LeaderboardPage() {
         <div className="d-flex gap-2">
           {['overall','weekly','monthly'].map(f => (
             <button key={f}
-              className="btn btn-sm"
-              style={{
-                borderRadius: 20,
-                background: filter === f ? 'linear-gradient(135deg,#4f46e5,#3b82f6)' : '#f1f5f9',
-                color: filter === f ? '#fff' : 'var(--sc-muted)',
-                fontWeight: 600, fontSize: '.8rem',
-                border: 'none',
-                transition: 'all .2s ease'
-              }}
+              className={`btn btn-sm ${filter !== f ? 'filter-pill-inactive' : ''}`}
+                  style={{
+                    borderRadius: 20,
+                    background: filter === f ? 'linear-gradient(135deg,#4f46e5,#3b82f6)' : undefined,
+                    color: filter === f ? '#fff' : undefined,
+                    fontWeight: 600, fontSize: '.8rem',
+                    border: 'none',
+                    transition: 'all .2s ease'
+                  }}
               onClick={() => setFilter(f)}>
               {f.charAt(0).toUpperCase() + f.slice(1)}
             </button>
@@ -79,7 +79,7 @@ export default function LeaderboardPage() {
           {/* Full table */}
           <div className="table-responsive">
             <table className="table align-middle mb-0" style={{ fontSize: '.875rem' }}>
-              <thead style={{ background: '#f8fafc', borderBottom: '2px solid #e2e8f0' }}>
+              <thead style={{ borderBottom: '2px solid var(--sc-border)' }}>
                 <tr>
                   <th style={{ padding: '.75rem 1.25rem', fontWeight: 700, fontSize: '.72rem', textTransform: 'uppercase', letterSpacing: '.06em', color: 'var(--sc-muted)' }}>Rank</th>
                   <th style={{ padding: '.75rem', fontWeight: 700, fontSize: '.72rem', textTransform: 'uppercase', letterSpacing: '.06em', color: 'var(--sc-muted)' }}>User</th>
@@ -92,10 +92,10 @@ export default function LeaderboardPage() {
                 {data.map((row, i) => {
                   const isMe = row.username === user?.username
                   return (
-                    <tr key={row.userId} className="animate-fade-up"
+                    <tr key={row.userId} className={`animate-fade-up ${isMe ? 'lb-row-me' : ''}`}
                       style={{
                         background: isMe ? '#eff6ff' : 'transparent',
-                        borderBottom: '1px solid #f1f5f9',
+                        borderBottom: '1px solid var(--sc-border)',
                         animationDelay: `${i * .03}s`
                       }}>
                       <td style={{ padding: '.7rem 1.25rem', fontWeight: 800, fontSize: '1rem' }}>

@@ -60,11 +60,11 @@ export default function ProgressTrackerPage() {
           <h6 style={{ fontWeight: 700, color: 'var(--sc-navy)', margin: 0 }}>Points Over Time</h6>
           <div className="d-flex gap-2">
             {['weekly','monthly'].map(p => (
-              <button key={p} className="btn btn-sm"
+              <button key={p} className={`btn btn-sm ${period !== p ? 'filter-pill-inactive' : ''}`}
                 style={{
                   borderRadius: 20, border: 'none', fontWeight: 600, fontSize: '.78rem',
-                  background: period === p ? 'linear-gradient(135deg,#4f46e5,#3b82f6)' : '#f1f5f9',
-                  color: period === p ? '#fff' : 'var(--sc-muted)'
+                  background: period === p ? 'linear-gradient(135deg,#4f46e5,#3b82f6)' : undefined,
+                  color: period === p ? '#fff' : undefined
                 }}
                 onClick={() => setPeriod(p)}>
                 {p.charAt(0).toUpperCase() + p.slice(1)}
@@ -108,7 +108,7 @@ export default function ProgressTrackerPage() {
               <Tooltip contentStyle={{ borderRadius: 12, border: 'none', boxShadow: '0 4px 16px rgba(0,0,0,.1)' }} />
               <Legend wrapperStyle={{ fontSize: '.8rem' }} />
               <Bar dataKey="earnedPoints" name="Earned" fill="#4f46e5" radius={[6,6,0,0]} />
-              <Bar dataKey="maxPoints" name="Max" fill="#e2e8f0" radius={[6,6,0,0]} />
+              <Bar dataKey="maxPoints" name="Max" fill="#475569" radius={[6,6,0,0]} />
             </BarChart>
           </ResponsiveContainer>
         )}

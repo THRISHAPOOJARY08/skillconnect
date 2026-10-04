@@ -109,12 +109,63 @@ html.dark .position-absolute.bg-white {
 }
 
 html.dark .stat-card { background: var(--sc-surface); border-color: var(--sc-border); }
+html.dark .stat-card .stat-value { color: var(--sc-text); }
 
 html.dark .table { color: var(--sc-text); }
 html.dark .table td,
 html.dark .table th { border-color: var(--sc-border); }
+html.dark .table thead th { background: #1e293b !important; color: var(--sc-muted) !important; }
+html.dark .table-striped > tbody > tr:nth-of-type(odd) > * { background: rgba(255,255,255,.03); }
 
 html.dark .empty-state { color: var(--sc-muted); }
+
+/* ─── Dark mode: light-tinted panels and activity rows ─────────────────── */
+/* Announcement feed rows */
+html.dark [style*="#f8fafc"],
+html.dark [style*="background: '#f8fafc'"] { background: var(--sc-surface) !important; }
+
+/* Activity rows and badge tints that use very-light pastel backgrounds */
+html.dark .ann-row        { background: #1e293b !important; border-color: #334155 !important; }
+html.dark .activity-row   { background: #1e293b !important; border-color: #334155 !important; }
+html.dark .activity-row * { color: var(--sc-text) !important; }
+
+/* Monitoring notice banner */
+html.dark .monitor-notice { background: #1e2d40 !important; border-color: #2a4a6b !important; color: #93c5fd !important; }
+
+/* Error / alert boxes with hardcoded light bg */
+html.dark .alert-box-error { background: #2d1b1b !important; border-color: #7f1d1d !important; color: #fca5a5 !important; }
+
+/* Filter pill buttons (leaderboard, progress) */
+html.dark .filter-pill-inactive { background: #1e293b !important; color: var(--sc-muted) !important; border-color: #334155 !important; }
+
+/* Connection/group member selector rows */
+html.dark .member-row          { background: #1e293b !important; border-color: #334155 !important; color: var(--sc-text) !important; }
+html.dark .member-row-selected { background: #1e3a5f !important; border-color: #2563eb !important; color: #bfdbfe !important; }
+
+/* Leaderboard: "me" row highlight */
+html.dark .lb-row-me { background: #1e2d40 !important; }
+
+/* Topic chip in dark mode */
+html.dark .topic-chip { background: #1e2d40; color: #93c5fd; }
+
+/* Badge tints */
+html.dark .badge-easy     { background: #14532d; color: #86efac; }
+html.dark .badge-medium   { background: #78350f; color: #fde68a; }
+html.dark .badge-hard     { background: #7f1d1d; color: #fca5a5; }
+html.dark .badge-pending  { background: #1e293b; color: #94a3b8; }
+html.dark .badge-answered { background: #1e3a5f; color: #93c5fd; }
+html.dark .badge-evaluated{ background: #14532d; color: #86efac; }
+html.dark .badge-closed   { background: #1e293b; color: #64748b; }
+
+/* sc-glass in dark mode */
+html.dark .sc-glass { background: rgba(30,41,59,.7); border-color: rgba(51,65,85,.5); }
+
+/* Progress bar track */
+html.dark .sc-progress-bar { background: #334155; }
+
+/* Quick action buttons */
+html.dark .quick-action-btn { background: #1e293b !important; color: var(--sc-text) !important; border: 1px solid #334155; }
+html.dark .quick-action-btn:hover { background: #273549 !important; }
 
 /* ─── Body ──────────────────────────────────────────────────────────────── */
 * { box-sizing: border-box; }
@@ -774,4 +825,20 @@ textarea.form-control { resize: vertical; min-height: 120px; }
   border-radius: 20px;
   background: linear-gradient(90deg, var(--sc-blue), var(--sc-purple));
   transition: width .6s cubic-bezier(.4,0,.2,1);
+}
+
+/* ─── Dark mode: headings & inline navy text ────────────────────────────── */
+html.dark .sc-page-title { color: var(--sc-text); }
+html.dark h1, html.dark h2, html.dark h3,
+html.dark h4, html.dark h5, html.dark h6 { color: var(--sc-text); }
+html.dark strong { color: var(--sc-text); }
+html.dark p { color: var(--sc-text); }
+/* Recharts chart labels in dark mode */
+html.dark .recharts-text { fill: #94a3b8 !important; }
+html.dark .recharts-cartesian-grid-horizontal line,
+html.dark .recharts-cartesian-grid-vertical line { stroke: #334155 !important; }
+html.dark .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
 }

@@ -210,7 +210,7 @@ export default function DashboardHome() {
                 {summary.recentActivities.slice(0, 8).map((a, i) => {
                   const info = ACTIVITY_ICONS[a.type] || { label: a.type, color: '#64748b', bg: '#f8fafc', emoji: '📌' }
                   return (
-                    <div key={i} className="animate-fade-up d-flex align-items-center gap-3"
+                    <div key={i} className="activity-row animate-fade-up d-flex align-items-center gap-3"
                       style={{
                         padding: '.7rem .9rem', borderRadius: 10,
                         background: info.bg, border: `1px solid ${info.color}20`,
@@ -293,8 +293,8 @@ export default function DashboardHome() {
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '.6rem', maxHeight: 320, overflowY: 'auto' }}>
                 {announcements.map(a => (
-                  <div key={a.id} className="animate-fade-up d-flex gap-3 align-items-start"
-                    style={{ padding: '.75rem', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>
+                  <div key={a.id} className="ann-row animate-fade-up d-flex gap-3 align-items-start"
+                    style={{ padding: '.75rem', borderRadius: 10 }}>
                     <img src={getAvatar(a.senderAvatarPath, a.senderUsername)} alt=""
                       style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
                     <div style={{ flex: 1, minWidth: 0 }}>

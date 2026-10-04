@@ -123,7 +123,7 @@ function ChatWindow({ question, onAnswerSubmitted }) {
             borderRadius: 20, padding: '.2rem .75rem', fontSize: '.75rem', fontWeight: 700
           }}>{question.difficulty}</span>
           <span className="topic-chip">📚 {question.topicName}</span>
-          <span style={{ background: '#fffbeb', color: '#d97706', borderRadius: 20, padding: '.2rem .75rem', fontSize: '.75rem', fontWeight: 700 }}>
+          <span className="badge-medium" style={{ borderRadius: 20, padding: '.2rem .75rem', fontSize: '.75rem', fontWeight: 700 }}>
             ⭐ {question.maxPoints} pts
           </span>
         </div>
@@ -132,10 +132,9 @@ function ChatWindow({ question, onAnswerSubmitted }) {
       {/* Messages */}
       <div className="chat-messages">
         {/* Monitoring notice */}
-        <div style={{
-          background: '#eff6ff', border: '1px solid #bfdbfe',
+        <div className="monitor-notice" style={{
           borderRadius: 10, padding: '.65rem 1rem',
-          fontSize: '.78rem', color: '#1d4ed8',
+          fontSize: '.78rem',
           display: 'flex', gap: '.5rem', alignItems: 'flex-start'
         }}>
           <AlertCircle size={14} style={{ flexShrink: 0, marginTop: 1 }} />
