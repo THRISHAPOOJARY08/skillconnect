@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Bell, Search, Menu } from 'lucide-react'
+import { Bell, Search, Menu, Sun, Moon } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import apiClient from '../../api/apiClient'
 import { getAvatar } from '../../utils/avatar'
@@ -12,7 +12,15 @@ export default function Navbar({ onMenuToggle }) {
   const [unread, setUnread]         = useState(0)
   const [notifications, setNotifs]  = useState([])
   const [showBell, setShowBell]     = useState(false)
+  const [dark, setDark]             = useState(() => document.documentElement.classList.contains('dark'))
   const bellRef = useRef(null)
+
+  const toggleDark = () => {
+    const next = !dark
+    setDark(next)
+    document.documentElement.classList.toggle('dark', next)
+    localStorage.setItem('sc-theme', next ? 'dark' : 'light')
+  }
 
   // Poll for unread notifications every 30 s
   useEffect(() => {
@@ -73,6 +81,11 @@ export default function Navbar({ onMenuToggle }) {
       </form>
 
       <div className="ms-auto d-flex align-items-center gap-3">
+        {/* Dark / light mode toggle */}
+        <button className="btn btn-sm btn-light" onClick={toggleDark} title={dark ? 'Switch to light mode' : 'Switch to dark mode'}>
+          {dark ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
+
         {/* Notification bell */}
         <div className="position-relative" ref={bellRef}>
           <button className="btn btn-sm btn-light position-relative" onClick={() => setShowBell(v => !v)}>

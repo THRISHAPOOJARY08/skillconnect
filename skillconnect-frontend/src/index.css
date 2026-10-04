@@ -42,6 +42,80 @@
   --shadow-glow: 0 0 20px rgba(59,130,246,.3);
 }
 
+/* ─── Dark mode variable overrides ─────────────────────────────────────── */
+html.dark {
+  --sc-bg:       #0f172a;
+  --sc-surface:  #1e293b;
+  --sc-border:   #334155;
+  --sc-text:     #f1f5f9;
+  --sc-muted:    #94a3b8;
+}
+
+html.dark body {
+  background: var(--sc-bg);
+  color: var(--sc-text);
+}
+
+html.dark .sc-navbar {
+  background: rgba(30,41,59,.95);
+  border-bottom-color: rgba(51,65,85,.8);
+}
+
+html.dark .sc-sidebar {
+  background: #0f172a;
+  border-right-color: #1e293b;
+}
+
+html.dark .sc-card,
+html.dark .card {
+  background: var(--sc-surface);
+  border-color: var(--sc-border);
+  color: var(--sc-text);
+}
+
+html.dark .form-control,
+html.dark .form-select,
+html.dark .input-group-text {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+html.dark .form-control::placeholder { color: #64748b; }
+
+html.dark .form-control:focus,
+html.dark .form-select:focus {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-color: var(--sc-blue);
+}
+
+html.dark .btn-light { background: #1e293b; border-color: #334155; color: #f1f5f9; }
+html.dark .btn-light:hover { background: #334155; }
+
+html.dark .bg-white  { background: var(--sc-surface) !important; }
+html.dark .bg-light  { background: #1e293b !important; }
+html.dark .text-dark { color: var(--sc-text) !important; }
+html.dark .text-muted { color: var(--sc-muted) !important; }
+
+html.dark .border,
+html.dark .border-bottom { border-color: var(--sc-border) !important; }
+
+html.dark .dropdown-menu,
+html.dark .position-absolute.bg-white {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f1f5f9;
+}
+
+html.dark .stat-card { background: var(--sc-surface); border-color: var(--sc-border); }
+
+html.dark .table { color: var(--sc-text); }
+html.dark .table td,
+html.dark .table th { border-color: var(--sc-border); }
+
+html.dark .empty-state { color: var(--sc-muted); }
+
 /* ─── Body ──────────────────────────────────────────────────────────────── */
 * { box-sizing: border-box; }
 

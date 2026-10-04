@@ -5,6 +5,12 @@
     <link rel="icon" type="image/svg+xml" href="/sc-logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SkillConnect – Peer Learning Platform</title>
+    <script>
+      (function(){
+        var t = localStorage.getItem('sc-theme');
+        if (t === 'dark') document.documentElement.classList.add('dark');
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
