@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { getAvatar } from '../../utils/avatar'
+import { formatDateOnly } from '../../utils/date'
 
 const DIFF_COLORS = { EASY: '#10b981', MEDIUM: '#f59e0b', HARD: '#ef4444' }
 const STATUS_COLORS = {
@@ -44,7 +45,7 @@ export default function QuestionCard({ q, showReply = false, showEvaluate = fals
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '.75rem', fontSize: '.78rem', color: 'var(--sc-muted)', marginBottom: '.5rem' }}>
             <span className="topic-chip">📚 {q.topicName}</span>
             <span style={{ background: '#fffbeb', color: '#d97706', borderRadius: 20, padding: '.15rem .65rem', fontWeight: 600 }}>⭐ {q.maxPoints} pts</span>
-            <span>🕒 {q.createdAt ? new Date(q.createdAt).toLocaleDateString() : ''}</span>
+            <span>🕒 {formatDateOnly(q.createdAt)}</span>
           </div>
 
           {/* Answer section */}

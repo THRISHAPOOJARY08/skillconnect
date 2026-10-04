@@ -4,6 +4,7 @@ import apiClient from '../../api/apiClient'
 import { useAuth } from '../../context/AuthContext'
 import { useActivityMonitor } from '../../hooks/useActivityMonitor'
 import { getAvatar } from '../../utils/avatar'
+import { formatDate } from '../../utils/date'
 
 const DIFF_COLORS = { EASY: '#10b981', MEDIUM: '#f59e0b', HARD: '#ef4444' }
 
@@ -155,7 +156,7 @@ function ChatWindow({ question, onAnswerSubmitted }) {
               </div>
             </div>
             <div style={{ fontSize: '.7rem', color: 'var(--sc-muted)', marginTop: '.3rem', paddingLeft: '.5rem' }}>
-              {question.createdAt ? new Date(question.createdAt).toLocaleString() : ''}
+              {formatDate(question.createdAt)}
             </div>
           </div>
         </div>

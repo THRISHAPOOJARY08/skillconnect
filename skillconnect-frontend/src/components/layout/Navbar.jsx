@@ -4,6 +4,7 @@ import { Bell, Search, Menu, Sun, Moon } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import apiClient from '../../api/apiClient'
 import { getAvatar } from '../../utils/avatar'
+import { formatDate } from '../../utils/date'
 
 export default function Navbar({ onMenuToggle }) {
   const { user } = useAuth()
@@ -109,7 +110,7 @@ export default function Navbar({ onMenuToggle }) {
                   : notifications.slice(0, 20).map(n => (
                     <div key={n.id} className={`px-3 py-2 border-bottom ${!n.read ? 'bg-light' : ''}`} style={{ fontSize: '.85rem' }}>
                       <p className="mb-0">{n.message}</p>
-                      <span className="text-muted" style={{ fontSize: '.75rem' }}>{new Date(n.createdAt).toLocaleString()}</span>
+                      <span className="text-muted" style={{ fontSize: '.75rem' }}>{formatDate(n.createdAt)}</span>
                     </div>
                   ))
                 }

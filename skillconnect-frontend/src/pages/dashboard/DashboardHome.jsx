@@ -4,6 +4,7 @@ import { HelpCircle, MessageSquare, Star, Trophy, Users, TrendingUp, Clock, Zap,
 import { useAuth } from '../../context/AuthContext'
 import apiClient from '../../api/apiClient'
 import { getAvatar } from '../../utils/avatar'
+import { formatDate } from '../../utils/date'
 
 function StatCard({ icon: Icon, label, value, color, gradient }) {
   return (
@@ -224,7 +225,7 @@ export default function DashboardHome() {
                       <div>
                         <div style={{ fontSize: '.85rem', fontWeight: 600, color: 'var(--sc-text)' }}>{info.label}</div>
                         <div style={{ fontSize: '.72rem', color: 'var(--sc-muted)' }}>
-                          {new Date(a.createdAt).toLocaleString()}
+                          {formatDate(a.createdAt)}
                         </div>
                       </div>
                     </div>
@@ -306,7 +307,7 @@ export default function DashboardHome() {
                           </span>
                         )}
                         <span style={{ fontSize: '.7rem', color: 'var(--sc-muted)', marginLeft: 'auto' }}>
-                          {new Date(a.createdAt).toLocaleString()}
+                          {formatDate(a.createdAt)}
                         </span>
                       </div>
                       <p style={{ margin: '.3rem 0 0', fontSize: '.85rem', color: 'var(--sc-text)', wordBreak: 'break-word' }}>{a.message}</p>
