@@ -860,3 +860,35 @@ html.dark .qcard-eval-box {
   background: #0d2318;
   border-color: #166534;
 }
+
+/* ─── Recipient selector pills (Ask Question page) ─────────────────────── */
+.recipient-pill {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .4rem .85rem .4rem .5rem;
+  border-radius: 20px;
+  border: 2px solid var(--sc-border);
+  background: var(--sc-surface);
+  color: var(--sc-text);
+  font-weight: 400;
+  font-size: .85rem;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+.recipient-pill:hover {
+  border-color: #818cf8;
+  background: var(--sc-surface);
+}
+.recipient-pill.selected {
+  border-color: #4f46e5;
+  background: #eff0ff;
+  color: #4f46e5;
+  font-weight: 600;
+  transform: scale(1.03);
+}
+html.dark .recipient-pill.selected {
+  background: #1e1b4b;
+  color: #a5b4fc;
+  border-color: #6366f1;
+}
