@@ -842,3 +842,21 @@ html.dark .recharts-tooltip-wrapper .recharts-default-tooltip {
   border-color: #334155 !important;
   color: #f1f5f9 !important;
 }
+
+/* ─── Question card answer / evaluation boxes ───────────────────────────── */
+.qcard-answer-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+.qcard-eval-box {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+html.dark .qcard-answer-box {
+  background: #0f172a;
+  border-color: #334155;
+}
+html.dark .qcard-eval-box {
+  background: #0d2318;
+  border-color: #166534;
+}
