@@ -892,3 +892,21 @@ html.dark .recipient-pill.selected {
   color: #a5b4fc;
   border-color: #6366f1;
 }
+
+/* ─── Dark mode: chat layout (Answer Questions page) ────────────────────── */
+html.dark .chat-layout       { background: var(--sc-surface); border-color: var(--sc-border); }
+html.dark .chat-list         { background: #0f172a; border-right-color: var(--sc-border); }
+html.dark .chat-list-header  { background: #0f172a; border-bottom-color: var(--sc-border); }
+html.dark .chat-item         { border-bottom-color: var(--sc-border); color: var(--sc-text); }
+html.dark .chat-item:hover   { background: #1e293b; }
+html.dark .chat-item.active  { background: #1e2d40; border-left-color: var(--sc-blue); }
+html.dark .chat-item-title   { color: var(--sc-text); }
+html.dark .chat-window       { background: #0f172a; }
+html.dark .chat-window-header{ background: #1e293b; border-bottom-color: var(--sc-border); }
+html.dark .chat-messages     { background: #0f172a; }
+html.dark .chat-bubble.question {
+  background: #1e293b;
+  border-color: var(--sc-border);
+  color: var(--sc-text);
+}
+html.dark .chat-input-area   { background: #1e293b; border-top-color: var(--sc-border); }

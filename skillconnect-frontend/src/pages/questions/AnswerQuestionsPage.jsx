@@ -12,7 +12,7 @@ function ChatList({ questions, selected, onSelect }) {
   return (
     <div className="chat-list">
       <div className="chat-list-header">
-        <div style={{ fontWeight: 700, fontSize: '.9rem', color: 'var(--sc-navy)' }}>
+        <div style={{ fontWeight: 700, fontSize: '.9rem', color: 'var(--sc-text)' }}>
           Questions for You
         </div>
         <div style={{ fontSize: '.75rem', color: 'var(--sc-muted)', marginTop: '.2rem' }}>
@@ -29,7 +29,7 @@ function ChatList({ questions, selected, onSelect }) {
           <div key={q.id} className={`chat-item${selected?.id === q.id ? ' active' : ''}`}
             onClick={() => onSelect(q)}>
             <img src={getAvatar(q.creatorAvatarPath, q.creatorUsername)} alt=""
-              style={{ width: 38, height: 38, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '2px solid #e2e8f0' }} />
+              style={{ width: 38, height: 38, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '2px solid var(--sc-border)' }} />
             <div style={{ flex: 1, minWidth: 0 }}>
               <div className="chat-item-title">{q.title}</div>
               <div className="chat-item-meta">
@@ -112,9 +112,9 @@ function ChatWindow({ question, onAnswerSubmitted }) {
       {/* Header */}
       <div className="chat-window-header">
         <img src={getAvatar(question.creatorAvatarPath, question.creatorUsername)} alt=""
-          style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', border: '2px solid #e2e8f0' }} />
+          style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--sc-border)' }} />
         <div>
-          <div style={{ fontWeight: 700, fontSize: '.9rem' }}>{question.creatorFullName}</div>
+          <div style={{ fontWeight: 700, fontSize: '.9rem', color: 'var(--sc-text)' }}>{question.creatorFullName}</div>
           <div style={{ fontSize: '.75rem', color: 'var(--sc-muted)' }}>@{question.creatorUsername}</div>
         </div>
         <div className="ms-auto d-flex gap-2 align-items-center">
@@ -145,7 +145,7 @@ function ChatWindow({ question, onAnswerSubmitted }) {
         {/* Question bubble */}
         <div className="chat-bubble-wrap">
           <img src={getAvatar(question.creatorAvatarPath, question.creatorUsername)} alt=""
-            style={{ width: 32, height: 32, borderRadius: '50%', border: '2px solid #e2e8f0', flexShrink: 0 }} />
+            style={{ width: 32, height: 32, borderRadius: '50%', border: '2px solid var(--sc-border)', flexShrink: 0 }} />
           <div>
             <div className="chat-bubble question">
               <div className="bubble-sender">{question.creatorFullName}</div>
@@ -165,7 +165,7 @@ function ChatWindow({ question, onAnswerSubmitted }) {
         {(alreadyAnswered || submitted) && (
           <div className="chat-bubble-wrap right">
             <img src={getAvatar(user?.avatarPath, user?.username)} alt=""
-              style={{ width: 32, height: 32, borderRadius: '50%', border: '2px solid #e2e8f0', flexShrink: 0 }} />
+              style={{ width: 32, height: 32, borderRadius: '50%', border: '2px solid var(--sc-border)', flexShrink: 0 }} />
             <div>
               <div className="chat-bubble answer">
                 <div className="bubble-sender" style={{ opacity: .8 }}>{user?.fullName} (You)</div>
@@ -193,7 +193,7 @@ function ChatWindow({ question, onAnswerSubmitted }) {
             <span>⏱ {Math.round((Date.now() - startTime) / 60000)}m</span>
           </div>
           {error && (
-            <div style={{ background: '#fef2f2', borderRadius: 8, padding: '.5rem .75rem', marginBottom: '.6rem', color: '#b91c1c', fontSize: '.8rem' }}>
+            <div className="alert-box-error" style={{ borderRadius: 8, padding: '.5rem .75rem', marginBottom: '.6rem', fontSize: '.8rem' }}>
               ⚠️ {error}
             </div>
           )}
@@ -219,12 +219,12 @@ function ChatWindow({ question, onAnswerSubmitted }) {
           </form>
         </div>
       ) : (
-        <div style={{
-          padding: '1rem 1.5rem', background: '#f0fdf4',
-          borderTop: '1px solid #bbf7d0', display: 'flex', alignItems: 'center', gap: '.75rem'
+        <div className="qcard-eval-box" style={{
+          padding: '1rem 1.5rem',
+          borderTop: '1px solid var(--sc-border)', display: 'flex', alignItems: 'center', gap: '.75rem'
         }}>
           <CheckCircle size={18} color="#10b981" />
-          <span style={{ fontSize: '.875rem', color: '#065f46', fontWeight: 600 }}>
+          <span style={{ fontSize: '.875rem', color: '#0d9488', fontWeight: 600 }}>
             {question.status === 'EVALUATED'
               ? 'This answer has been evaluated.'
               : 'Answer submitted successfully!'}

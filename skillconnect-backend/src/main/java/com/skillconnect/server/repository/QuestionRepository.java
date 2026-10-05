@@ -35,11 +35,12 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     // Eager fetch variant for recipient
     @Query("""
         SELECT DISTINCT q FROM Question q
+        JOIN q.recipients rec
         LEFT JOIN FETCH q.recipients r
         LEFT JOIN FETCH q.creator c
         LEFT JOIN FETCH c.avatar
         LEFT JOIN FETCH q.topic
-        WHERE :userId MEMBER OF q.recipients
+        WHERE rec.id = :userId
         ORDER BY q.createdAt DESC
         """)
     List<Question> findByRecipientIdFetch(@Param("userId") Long userId);
