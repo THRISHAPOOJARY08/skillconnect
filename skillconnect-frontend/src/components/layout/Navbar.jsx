@@ -62,7 +62,8 @@ export default function Navbar({ onMenuToggle }) {
   return (
     <header className="sc-navbar">
       {/* Hamburger (mobile) */}
-      <button className="btn btn-sm d-md-none me-2" onClick={onMenuToggle}>
+      <button className="btn btn-sm btn-light d-md-none me-2" onClick={onMenuToggle}
+        style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
         <Menu size={20} />
       </button>
 

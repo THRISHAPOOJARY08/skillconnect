@@ -69,20 +69,23 @@ public class QuestionService {
         return toResponse(question);
     }
 
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public List<QuestionResponse> getSentQuestions(String username) {
         User user = userRepo.findByUsername(username).orElseThrow();
-        return questionRepo.findByCreatorId(user.getId()).stream()
+        return questionRepo.findByCreatorIdFetch(user.getId()).stream()
             .map(this::toResponse).toList();
     }
 
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public List<QuestionResponse> getReceivedQuestions(String username) {
         User user = userRepo.findByUsername(username).orElseThrow();
-        return questionRepo.findByRecipientId(user.getId()).stream()
+        return questionRepo.findByRecipientIdFetch(user.getId()).stream()
             .map(this::toResponse).toList();
     }
 
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public QuestionResponse getById(Long id, String username) {
-        Question q = questionRepo.findById(id).orElseThrow(() -> new RuntimeException("Question not found"));
+        Question q = questionRepo.findByIdFetch(id).orElseThrow(() -> new RuntimeException("Question not found"));
         User user = userRepo.findByUsername(username).orElseThrow();
         boolean isCreator = q.getCreator().getId().equals(user.getId());
         boolean isRecipient = q.getRecipients().stream().anyMatch(r -> r.getId().equals(user.getId()));

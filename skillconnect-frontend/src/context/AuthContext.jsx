@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import apiClient from '../api/apiClient'
 
 const AuthContext = createContext(null)
 
@@ -7,13 +8,32 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem('skillconnect_token'))
   const [loading, setLoading] = useState(true)
 
-  // On mount, rehydrate user from stored token
+  // On mount: verify the stored token is still valid by hitting /users/me
   useEffect(() => {
-    const stored = localStorage.getItem('skillconnect_user')
-    if (stored && token) {
-      try { setUser(JSON.parse(stored)) } catch { /* ignore */ }
+    const storedToken = localStorage.getItem('skillconnect_token')
+    const storedUser  = localStorage.getItem('skillconnect_user')
+
+    if (!storedToken) { setLoading(false); return }
+
+    // Optimistically restore user for instant UI, then verify with backend
+    if (storedUser) {
+      try { setUser(JSON.parse(storedUser)) } catch { /* ignore */ }
     }
-    setLoading(false)
+
+    apiClient.get('/users/me')
+      .then(r => {
+        // Refresh stored user data with latest from server
+        setUser(r.data)
+        localStorage.setItem('skillconnect_user', JSON.stringify(r.data))
+      })
+      .catch(() => {
+        // Token expired or invalid — clear everything
+        localStorage.removeItem('skillconnect_token')
+        localStorage.removeItem('skillconnect_user')
+        setToken(null)
+        setUser(null)
+      })
+      .finally(() => setLoading(false))
   }, [])
 
   const login = (userData, jwtToken) => {
